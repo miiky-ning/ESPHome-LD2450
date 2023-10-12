@@ -12,6 +12,8 @@ Copy the folder 'components' to home assistant '/config/esphome'.
 
 changelog:
 
+（2023.10.12）
+
   1.支持设置区域过滤设置（指定区域坐标内不扫描，暂时只支持一个区域）
   
   2.支持区域内人体数量的测量
