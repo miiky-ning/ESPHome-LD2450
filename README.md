@@ -3,6 +3,8 @@ Hi-Link LD2450 For ESPHome
 
 用于海凌科LD2450雷达感应模块连接ESPHome的驱动和ESPHome代码。
 
+使用方法：
+
 复制'components'文件夹和其中的驱动文件到Home Assistant的config/esphome目录下。
 
 Copy the folder 'components' to home assistant '/config/esphome'.
