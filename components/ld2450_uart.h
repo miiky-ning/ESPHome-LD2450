@@ -5,7 +5,7 @@
 #define TARGETS 3
 
 static const char *TAG = "ld2450";
-static int numb = -1;
+
 class LD2450 : public PollingComponent, public UARTDevice
 {
 public:
@@ -160,7 +160,8 @@ public:
   }
 
   void handlePeriodicData(char *buffer, int len) {
-    int num = 0;
+    static int num = -1;
+    static int numb = -1;
     if (len < 29)
       return;  // 4 frame start bytes + 2 length bytes + 1 data end byte + 1 crc byte + 4 frame end bytes
     if (buffer[0] != 0xAA || buffer[1] != 0xFF || buffer[2] != 0x03 || buffer[3] != 0x00)
@@ -245,25 +246,20 @@ public:
   {
     char cmd_query[2] = {0x61, 0x00};
     setConfig();
-    delay(50);
     sendCommand(cmd_query, nullptr, 0);
-    delay(50);
     endConfig();
   }
   void factoryReset()
   {
     char cmd[2] = {0xA2, 0x00};
     setConfig();
-    delay(50);
     sendCommand(cmd, nullptr, 0);
-    delay(50);
     reboot();
   }
   void reboot()
   {
     char cmd[2] = {0xA3, 0x00};
     setConfig();
-    delay(50);
     sendCommand(cmd, nullptr, 0);
   }
   void setBlockZone(int bolckZone1X, int bolckZone1Y, int bolckZone2X, int bolckZone2Y)
@@ -271,11 +267,8 @@ public:
     char cmd[2] = {0xC2, 0x00};
     char value[26] = {0x02, 0x00, lowByte(bolckZone1X), highByte(bolckZone1X), lowByte(bolckZone1Y), highByte(bolckZone1Y), lowByte(bolckZone2X), highByte(bolckZone2X), lowByte(bolckZone2Y), highByte(bolckZone2Y), 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
     setConfig();
-    delay(50);
     sendCommand(cmd, value, 26);
-    delay(50);
     endConfig();
-    queryParameters();
   }
 
   void update(){
