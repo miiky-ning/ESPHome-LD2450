@@ -5,7 +5,7 @@
 #define TARGETS 3
 
 static const char *TAG = "ld2450";
-int numb = 0;
+static int numb = -1;
 class LD2450 : public PollingComponent, public UARTDevice
 {
 public:
@@ -169,15 +169,12 @@ public:
       return;  //  data end=0x55, 0xcc
     if (twoByteToUint(buffer[20], buffer[21] & 0x7F) != 0 || twoByteToUint(buffer[22], buffer[23] & 0x7F) != 0) {
       num = 3;
-      humanCount->publish_state(3);
     }
     else if (twoByteToUint(buffer[12], buffer[13] & 0x7F) != 0 || twoByteToUint(buffer[14], buffer[15] & 0x7F) != 0) {
       num = 2;
-      humanCount->publish_state(2);
     }
     else if (twoByteToUint(buffer[4], buffer[5] & 0x7F) != 0 || twoByteToUint(buffer[6], buffer[7] & 0x7F) != 0) {
       num = 1;
-      humanCount->publish_state(1);
     }
     else {
       num = 0;
